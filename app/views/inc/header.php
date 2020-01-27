@@ -12,5 +12,7 @@
   <title><?php echo PROJECT_NAME;?></title>
 </head>
 <body>
+  <?php require APPROOT.'/views/inc/navbar.php';?>
+  <div class="container">
 
 
