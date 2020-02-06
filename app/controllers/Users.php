@@ -76,6 +76,37 @@ class Users extends Controller
   }
 
   public function login(){
-    $this->view('users/login');
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); // to do
+      $data = array(
+        'email' => trim($_POST['email']),
+        'password' => $_POST['password'],
+        'email_err' => '',
+        'password_err' => ''
+      );
+
+      if(empty($data['email'])){
+        $data['email_err'] = 'Please enter the email';
+      }
+
+      if(empty($data['password'])){
+        $data['password_err'] = 'Please enter the password';
+      }
+
+      if(empty($data['email_err']) and empty($data['password_err'])){
+        // ok, log in
+        } else {
+          echo ('Something went wrong');
+      }
+
+    } else {
+      $data = array(
+        'email' => '',
+        'password' => '',
+        'email_err' => '',
+        'password_err' => ''
+      );
+    }
+    $this->view('users/login', $data);
   }
 }
