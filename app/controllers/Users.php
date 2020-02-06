@@ -93,8 +93,17 @@ class Users extends Controller
         $data['password_err'] = 'Please enter the password';
       }
 
+      if(!$this->userModel->findUserByEmail($data['email'])){
+        $data['email_err'] = 'User email is not found';
+      }
+
       if(empty($data['email_err']) and empty($data['password_err'])){
-        // ok, log in
+        $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+        if($loggedInUser) {
+          echo 'ok';
+        } else {
+          $data['password_err'] = 'Your password is incorrect';
+        }
         } else {
           echo ('Something went wrong');
       }
