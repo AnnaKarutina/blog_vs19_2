@@ -9,12 +9,12 @@ class Users extends Controller
    */
   public function __construct()
   {
-    $usersModel = $this->model('User');
+    $this->userModel = $this->model('User');
   }
 
   public function register(){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-//      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); // to do
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); // to do
       $data = array(
         'name' => trim($_POST['name']),
         'email' => trim($_POST['email']),
@@ -33,6 +33,8 @@ class Users extends Controller
         $data['email_err'] = 'Please enter the email';
       } else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
         $data['email_err'] = 'Please enter the valid email';
+      } else if($this->userModel->findUserByEmail($data['email'])){
+        $data['email_err'] = 'Email is already taken';
       }
 
       if(empty($data['password'])){
@@ -50,10 +52,30 @@ class Users extends Controller
       }
 
       if(empty($data['name_err']) and empty($data['email_err']) and empty($data['password_err']) and empty($data['confirm_password_err'])){
-        echo 'ok';
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        if($this->userModel->register($data)){
+          header('Location: '.URLROOT.'/'.'users/login');
+        } else {
+          echo ('Something went wrong');
+        }
       }
 
+    } else {
+      $data = array(
+        'name' => '',
+        'email' => '',
+        'password' => '',
+        'confirm_password' => '',
+        'name_err' => '',
+        'email_err' => '',
+        'password_err' => '',
+        'confirm_password_err' => ''
+      );
     }
     $this->view('users/register', $data);
+  }
+
+  public function login(){
+    $this->view('users/login');
   }
 }
