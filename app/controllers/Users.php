@@ -120,9 +120,9 @@ class Users extends Controller
   }
 
   public function createUserSession($user){
-    $_SERVER['user_id'] = $user->user_id;
-    $_SERVER['user_name'] = $user->user_name;
-    $_SERVER['user_email'] = $user->user_email;
+    $_SESSION['user_id'] = $user->user_id;
+    $_SESSION['user_name'] = $user->user_name;
+    $_SESSION['user_email'] = $user->user_email;
     header('Location: '.URLROOT.'/'.'pages/index');
   }
 }
