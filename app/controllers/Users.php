@@ -100,7 +100,7 @@ class Users extends Controller
       if(empty($data['email_err']) and empty($data['password_err'])){
         $loggedInUser = $this->userModel->login($data['email'], $data['password']);
         if($loggedInUser) {
-          echo 'ok';
+          $this->createUserSession($loggedInUser);
         } else {
           $data['password_err'] = 'Your password is incorrect';
         }
@@ -117,5 +117,12 @@ class Users extends Controller
       );
     }
     $this->view('users/login', $data);
+  }
+
+  public function createUserSession($user){
+    $_SERVER['user_id'] = $user->user_id;
+    $_SERVER['user_name'] = $user->user_name;
+    $_SERVER['user_email'] = $user->user_email;
+    header('Location: '.URLROOT.'/'.'pages/index');
   }
 }
