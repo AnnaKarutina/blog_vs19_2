@@ -125,4 +125,10 @@ class Users extends Controller
     $_SESSION['user_email'] = $user->user_email;
     header('Location: '.URLROOT.'/'.'pages/index');
   }
+
+  public function logout(){
+    session_unset();
+    session_destroy();
+    header('Location: '.URLROOT.'/'.'users/login');
+  }
 }
