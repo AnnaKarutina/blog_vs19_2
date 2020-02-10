@@ -4,6 +4,7 @@
       <!-- form card register -->
       <div class="card card-outline-secondary mt-5">
         <div class="card-header">
+          <?php msg('register_success');?>
           <h3 class="mb-0">Log In</h3>
           <p class="mt-2">Please fill the fields below to login</p>
         </div>
