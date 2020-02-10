@@ -54,7 +54,7 @@ class Users extends Controller
       if(empty($data['name_err']) and empty($data['email_err']) and empty($data['password_err']) and empty($data['confirm_password_err'])){
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         if($this->userModel->register($data)){
-          header('Location: '.URLROOT.'/'.'users/login');
+          redirect('users/login');
         } else {
           echo ('Something went wrong');
         }
@@ -123,12 +123,12 @@ class Users extends Controller
     $_SESSION['user_id'] = $user->user_id;
     $_SESSION['user_name'] = $user->user_name;
     $_SESSION['user_email'] = $user->user_email;
-    header('Location: '.URLROOT.'/'.'pages/index');
+    redirect('pages/index');
   }
 
   public function logout(){
     session_unset();
     session_destroy();
-    header('Location: '.URLROOT.'/'.'users/login');
+    redirect('users/login');
   }
 }
