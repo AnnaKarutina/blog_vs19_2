@@ -71,4 +71,21 @@ class Posts extends Controller
     }
   }
 
+  public function delete($id){
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      $post = $this->postModel->getPostById($id);
+      if($post->user_id != $_SESSION['user_id']){
+        redirect('posts');
+      }
+      if($this->postModel->deletePost($id)){
+        msg('post_message', 'Post Removed');
+        redirect('posts');
+      } else {
+        die('Something went wrong');
+      }
+    } else {
+      redirect('posts');
+    }
+  }
+
 }
