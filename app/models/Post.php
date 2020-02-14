@@ -46,4 +46,17 @@ class Post
       return false;
     }
   }
+
+  public function addPost($data){
+    $this->db->query('INSERT INTO posts (post_title, user_id, post_content) VALUES(:title, :user_id, :content)');
+    $this->db->bind(':title', $data['title']);
+    $this->db->bind(':user_id', $data['user_id']);
+    $this->db->bind(':content', $data['content']);
+    $result = $this->db->execute();
+    if($result){
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
