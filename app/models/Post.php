@@ -22,4 +22,17 @@ class Post
     $post = $this->db->getOne();
     return $post;
   }
+
+  public function editPost($data){
+    $this->db->query('UPDATE posts SET post_title=:title, post_content=:content WHERE post_id=:id');
+    $this->db->bind(':id', $data['id']);
+    $this->db->bind(':title', $data['title']);
+    $this->db->bind(':content', $data['content']);
+    $result = $this->db->execute();
+    if($result){
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
